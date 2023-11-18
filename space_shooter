@@ -1,0 +1,89 @@
+import pgzrun
+import random
+
+WIDTH = 1024
+HEIGHT = 768
+
+
+p = Actor('playership1_orange')
+p.pos = (WIDTH/2,HEIGHT/2)
+
+es = []
+ls = []
+def update():
+    if random.randint(0,100) < 5:
+        e = Actor('enemyblack1')
+        e.x = random.randint(0, WIDTH)
+        es.append(e)
+    if keyboard.w:
+        p.y-=5
+    if keyboard.s:
+        p.y+=5
+    if keyboard.a:
+        p.x-=5
+    if keyboard.d:
+        p.x+=5
+    if keyboard.SPACE:
+        l = Actor('laserred05')
+        l.pos = p.pos
+        ls.append(l)
+
+    if p.left<0:
+        p.left=0
+    if p.right>WIDTH:
+        p.right=WIDTH
+    if p.top<0:
+        p.top=0
+    if p.bottom>HEIGHT:
+        p.bottom=HEIGHT
+
+    for l in ls:
+        l.y -=10
+        for e in es:
+            if l.colliderect(e):
+                es.remove(e)
+                ls.remove(l)
+                break
+        if l.bottom < 0:
+            ls.remove(l)
+
+
+def draw():
+    screen.clear()
+    p.draw()
+    for e in es:
+        e.draw()
+    for l in ls:
+        l.draw()
+pgzrun.go()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
